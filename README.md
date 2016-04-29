@@ -1,7 +1,6 @@
 # ActivityNet Essentials
 
-A couple of python classes to help deal with the ActivityNet dataset. Video-
-related methods require youtube-dl or ffmpeg installed as commandline apps
+A couple of python classes to help deal with the ActivityNet dataset. Video related methods require youtube-dl and ffmpeg installed as commandline apps
 (they're called by subprocess).
 
 ## ActivityNet
