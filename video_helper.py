@@ -71,4 +71,4 @@ class VideoHelper:
         for frame in range(number_of_frames):
             frames[frame] = reader.get_data(frame)
 
-        return frames, number_of_frames
+        return frames, frames.shape
