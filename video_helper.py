@@ -1,5 +1,6 @@
-import os
+import os, imageio
 import subprocess as sp
+import numpy as np
 from . import ROOT_DIR
 
 FFMPEG_BIN = 'ffmpeg'
@@ -38,3 +39,36 @@ class VideoHelper:
                     os.unlink(file_path)
             except Exception as e:
                 print("VideoHelper[delete_all_videos] {}".format(e))
+
+    @staticmethod
+    def open_video_by_id(id):
+        filename = os.path.join(VIDEOS_PATH, "v_{}.mp4".format(id))
+        return imageio.get_reader(filename,  'ffmpeg')
+
+    @staticmethod
+    def open_video_by_url(url):
+        return VideoHelper.open_video_by_id(url[-11:-1])
+
+    @staticmethod
+    def get_meta_by_id(id):
+        return VideoHelper.open_video_by_id(id).get_meta_data()
+
+    @staticmethod
+    def get_meta_by_url(url):
+        return VideoHelper.get_meta_by_id(url[-11:-1])
+
+    @staticmethod
+    def extract_every_half_second_from_reader_with_annotation(reader, annotation):
+        fps = reader.get_meta_data()['fps']
+        width = reader.get_meta_data()['size'][0]
+        height = reader.get_meta_data()['size'][1]
+        range_seconds = annotation['segment']
+        range_frames = [ int(x*fps) for x in range_seconds ]
+
+        number_of_frames = len(range(range_frames[0],range_frames[1],int(fps/2)))
+
+        frames = np.zeros(( number_of_frames, height, width, 3 ))
+        for frame in range(number_of_frames):
+            frames[frame] = reader.get_data(frame)
+
+        return frames, number_of_frames

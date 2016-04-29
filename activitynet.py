@@ -151,7 +151,6 @@ class ActivityNet:
                     break
         return items
 
-
     # Returns items in a subset with a particular label
     # in form: [{u'duration': 92.18, u'subset': u'training', ... }, ...]
     def get_subset_with_label(this, subset, label):
@@ -165,3 +164,17 @@ class ActivityNet:
                         items.append(node)
                         break
         return items
+
+    @staticmethod
+    def count_annotations_from_node(node):
+        count = 0
+        for annotation in node['annotations']:
+            count +=1
+        return count
+
+    @staticmethod
+    def get_annotations_from_node(node):
+        annotations = []
+        for annotation in node['annotations']:
+            annotations.append(annotation)
+        return annotations
