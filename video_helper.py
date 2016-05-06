@@ -43,7 +43,7 @@ class VideoHelper:
     @staticmethod
     def open_video_by_id(id):
         filename = os.path.join(VIDEOS_PATH, "v_{}.mp4".format(id))
-        return imageio.get_reader(filename,  'ffmpeg')
+        return imageio.get_reader(filename, 'ffmpeg')
 
     @staticmethod
     def open_video_by_url(url):
