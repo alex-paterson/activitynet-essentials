@@ -38,7 +38,8 @@ pasta_annotation = pasta_annotations[0]
 
 VideoHelper.download_video_by_url(pasta_url)
 pasta_video_reader = VideoHelper.open_video_by_url(pasta_url)
-pasta_frames = VideoHelper.get_frames_every_half_second(pasta_video_reader, pasta_annotation)
+pasta_frames, shape = VideoHelper.get_frames_every_half_second(pasta_video_reader, pasta_annotation)
+pasta_frame = pasta_frames[0]
 
 VideoHelper.delete_all_videos()
 
