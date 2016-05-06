@@ -58,7 +58,23 @@ class VideoHelper:
         return VideoHelper.get_meta_by_id(url[-11:-1])
 
     @staticmethod
-    def extract_every_half_second_from_reader_with_annotation(reader, annotation):
+    def get_frames_every_half_second(reader, annotation):
+        fps = reader.get_meta_data()['fps']
+        width = reader.get_meta_data()['size'][0]
+        height = reader.get_meta_data()['size'][1]
+        range_seconds = annotation['segment']
+        range_frames = [ int(x*fps) for x in range_seconds ]
+
+        number_of_frames = len(range(range_frames[0],range_frames[1],int(fps/2)))
+
+        frames = np.zeros(( number_of_frames, height, width, 3 ))
+        for frame in range(number_of_frames):
+            frames[frame] = reader.get_data(frame)
+
+        return frames, frames.shape
+
+    @staticmethod
+    def get_frames(reader, annotation):
         fps = reader.get_meta_data()['fps']
         width = reader.get_meta_data()['size'][0]
         height = reader.get_meta_data()['size'][1]
