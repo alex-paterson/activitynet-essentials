@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from skimage import data, color, exposure
 from skimage.feature import hog
+import numpy as np
 
 class ImageHelper:
     @staticmethod
@@ -12,4 +13,10 @@ class ImageHelper:
         hog_image_rescaled = exposure.rescale_intensity(hog_image,
             in_range=(0, 0.02))
         imgplot = plt.imshow(hog_image_rescaled, cmap=plt.cm.gray)
+        plt.show()
+
+    @staticmethod
+    def show_image(image):
+        # rgb = np.fliplr(image.reshape(-1,3)).reshape(image.shape)
+        imgplot = plt.imshow(image)
         plt.show()

@@ -67,7 +67,7 @@ class VideoHelper:
 
         number_of_frames = len(range(range_frames[0],range_frames[1],int(fps/2)))
 
-        frames = np.zeros(( number_of_frames, height, width, 3 ))
+        frames = np.zeros(( number_of_frames, height, width, 3 ), dtype='uint8')
         for frame in range(number_of_frames):
             frames[frame] = reader.get_data(frame)
 
@@ -83,7 +83,7 @@ class VideoHelper:
 
         number_of_frames = len(range(range_frames[0],range_frames[1],int(fps/2)))
 
-        frames = np.zeros(( number_of_frames, height, width, 3 ))
+        frames = np.zeros(( number_of_frames, height, width, 3 ), dtype='uint8')
         for frame in range(number_of_frames):
             frames[frame] = reader.get_data(frame)
 
