@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 from skimage import data, color, exposure
 from skimage.feature import hog
 import numpy as np
+from PIL import Image
+
 
 class ImageHelper:
 
@@ -16,7 +18,7 @@ class ImageHelper:
         hog_image_rescaled = ImageHelper.get_hog(image)
         imgplot = plt.imshow(hog_image_rescaled, cmap=plt.cm.gray)
         plt.show()
-    
+
     @staticmethod
     def get_hog(image):
         image = color.rgb2gray(image)
@@ -26,3 +28,9 @@ class ImageHelper:
         hog_image_rescaled = exposure.rescale_intensity(hog_image,
             in_range=(0, 0.02))
         return hog_image_rescaled
+
+    @staticmethod
+    def resize_image(image, height, width):
+        image_pil = Image.fromarray(image)
+        image_pil = image_pil.resize((width, height), Image.ANTIALIAS)
+        return np.asarray(image_pil)
