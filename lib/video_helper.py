@@ -1,72 +1,69 @@
 import os, imageio
 import subprocess as sp
 import numpy as np
-from . import ROOT_DIR
 
 from .image_helper import ImageHelper
 
 FFMPEG_BIN = 'ffmpeg'
 YOUTUBEDL_BIN = 'youtube-dl'
-VIDEOS_PATH = os.path.join(ROOT_DIR, "videos/")
 
 class VideoHelper:
-    @staticmethod
-    def download_video_by_id(video_id):
+    def __init__(self, videos_path):
+        if not os.path.exists(videos_path):
+            os.makedirs(videos_path)
+        self.videos_path = videos_path
+
+    def download_video_by_id(self, video_id):
         command = [ YOUTUBEDL_BIN,
                     '-f', 'best',
                     '-f', 'mp4',
                     "https://www.youtube.com/watch?v={}".format(video_id),
-                    '-o', os.path.join(VIDEOS_PATH, "v_{}.mp4".format(video_id))]
+                    '-o', os.path.join(self.videos_path, "v_{}.mp4".format(video_id))]
         pipe = sp.call(command)
 
-    @staticmethod
-    def download_video_by_url(video_url):
-        command = [ YOUTUBEDL_BIN,
-                    '-f', 'best',
-                    '-f', 'mp4',
-                    video_url,
-                    '-o', os.path.join(VIDEOS_PATH, "v_{}.mp4".format(video_url[-11:-1]))]
-        s = ""
-        for i in command:
-            s = s + " " + i
-        print(s)
-        pipe = sp.call(command)
+    def download_video_by_url(self, video_url):
+        if not self.check_for_video_by_url(video_url):
+            command = [ YOUTUBEDL_BIN,
+                        '-f', 'best',
+                        '-f', 'mp4',
+                        video_url,
+                        '-o', os.path.join(self.videos_path, "v_{}.mp4".format(video_url[-11:-1]))]
+            s = ""
+            for i in command:
+                s = s + " " + i
+            pipe = sp.call(command)
+        else:
+            print("[youtube] File already exists", video_url)
 
 
-
-    @staticmethod
-    def delete_all_videos():
-        for file in os.listdir(VIDEOS_PATH):
-            file_path = os.path.join(VIDEOS_PATH, file)
+    def delete_all_videos(self):
+        for file in os.listdir(self.videos_path):
+            file_path = os.path.join(self.videos_path, file)
             try:
                 if os.path.isfile(file_path):
                     os.unlink(file_path)
             except Exception as e:
                 print("VideoHelper[delete_all_videos] {}".format(e))
 
-
-
-    @staticmethod
-    def open_video_by_id(id):
-        filename = os.path.join(VIDEOS_PATH, "v_{}.mp4".format(id))
+    def open_video_by_id(self, id):
+        filename = os.path.join(self.videos_path, "v_{}.mp4".format(id))
         return imageio.get_reader(filename, 'ffmpeg')
 
-    @staticmethod
-    def open_video_by_url(url):
-        return VideoHelper.open_video_by_id(url[-11:-1])
+    def open_video_by_url(self, url):
+        return self.open_video_by_id(url[-11:-1])
 
+    def check_for_video_by_url(self, url):
+        try:
+            self.open_video_by_id(url[-11:-1])
+            return True
+        except:
+            return False
 
+    def get_meta_by_id(self, id):
+        return self.open_video_by_id(id).get_meta_data()
 
-    @staticmethod
-    def get_meta_by_id(id):
-        return VideoHelper.open_video_by_id(id).get_meta_data()
-
-    @staticmethod
-    def get_meta_by_url(url):
-        return VideoHelper.get_meta_by_id(url[-11:-1])
-
-
-
+    def get_meta_by_url(self, url):
+        return self.get_meta_by_id(url[-11:-1])
 
     @staticmethod
     def get_frames_per_second(reader, custom_fps, annotation):
@@ -107,7 +104,6 @@ class VideoHelper:
             index += 1
 
         return frames, frames.shape
-
 
     @staticmethod
     def reshape_video(frames, new_dimensions):

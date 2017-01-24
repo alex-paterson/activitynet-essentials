@@ -1,0 +1,6 @@
+h5py==2.6.0
+imageio==2.1.1
+matplotlib==1.5.3
+scikit-image==0.12.3
+caffe
+protobuf

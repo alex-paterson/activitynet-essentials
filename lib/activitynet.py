@@ -8,8 +8,8 @@ import json, sys, os
 from . import ROOT_DIR
 
 SPACE = '    ' # For printing purposes
-JSON_V2_PATH = os.path.join(ROOT_DIR, "./datasets/activity_net.v1-2.min.json")
-JSON_V3_PATH = os.path.join(ROOT_DIR, "./datasets/activity_net.v1-3.min.json")
+JSON_V2_PATH = os.path.join(ROOT_DIR, "../datasets/activity_net.v1-2.min.json")
+JSON_V3_PATH = os.path.join(ROOT_DIR, "../datasets/activity_net.v1-3.min.json")
 
 
 '''

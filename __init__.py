@@ -1,7 +1,5 @@
-import os
-ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
-
-from activitynet import ActivityNet
-from video_helper import VideoHelper
-from image_helper import ImageHelper
-from hdf_helper import HDFHelper
+from .lib.activitynet import ActivityNet
+from .lib.video_helper import VideoHelper
+from .lib.image_helper import ImageHelper
+from .lib.hdf_helper import HDFHelper
+from .lib.caffe_helper import CaffeHelper

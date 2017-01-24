@@ -6,7 +6,7 @@ frames = np.array(['1.0','2.0','3.0'])
 hdf5_object = HDFHelper("test")
 
 print("\n\nCreating group and saving data to it.\n")
-hdf5_object.create_group("/test_dir_1/test_dir_2")
+hdf5_object.ensure_group("/test_dir_1/test_dir_2")
 hdf5_object.save_data("/test_dir_1/test_dir_2", "test_item", frames)
 
 hdf5_object.print_file_structure()
